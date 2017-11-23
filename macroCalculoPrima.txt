@@ -1,0 +1,42 @@
+Sub validarPrima()
+'Capital Asegurado   TASA    Prima Neta
+    filaCapitalAseg = 10
+    filaTasa = 11
+    filaPrimaNeta = 12
+    columnaActual = 12
+    
+  ' Es 100% seguro que no habran columnas vacias para la prima neta que puedan interrumpir la iteracion?
+    Do Until IsEmpty(Cells(columnaActual, filaPrimaNeta))
+        
+        'flag para salir, ELIMINAR PARA QUE ITERE EN TODAS
+        'If columnaActual = 15 Then Exit Do
+        
+        'Declaracion y asignacion segun decian en un foro
+        Dim capitalAseg As String: capitalAseg = Cells(columnaActual, filaCapitalAseg)
+        Dim tasa As String: tasa = Cells(columnaActual, filaTasa)
+        Dim primaNeta As String: primaNeta = Cells(columnaActual, filaPrimaNeta)
+        
+        'Activar para validar los datos que estamos tomando
+        'MsgBox "Fila " & columnaActual & " Capital Asegurado " & capitalAseg & " TASA " & tasa & " Prima Neta " & primaNeta
+        
+        If Not (IsNumeric(capitalAseg)) Then capitalAseg = 0
+        If Not (IsNumeric(tasa)) Then tasa = 0
+        
+        
+        'Se realiza el calculo
+        primaEsperada = Round((capitalAseg * tasa) / 100, 2)
+        
+        'Caja de mensaje solo para probar, recordar eliminarlas cuando el codigo funcione
+        'MsgBox "primaEsperada " & primaEsperada & " Prima del excel" & primaNeta
+        
+        'Si los valores son distintos
+        If Not (primaEsperada = primaNeta) Then
+            'asignar el color que corresponda
+            Cells(columnaActual, filaPrimaNeta).Interior.ColorIndex = 37
+        End If
+    
+        columnaActual = columnaActual + 1
+    Loop
+    
+    MsgBox "FIN"
+End Sub
